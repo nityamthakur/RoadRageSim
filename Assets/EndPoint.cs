@@ -17,7 +17,8 @@ public class EndPoint : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {  
-            
+            //Temporarily take damage for testing purposes
+            gameManager.takeDamage(0.1f);
             gameManager.endGame();
         }
     }
