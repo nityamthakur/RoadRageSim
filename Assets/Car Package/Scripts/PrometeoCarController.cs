@@ -331,7 +331,24 @@ public class PrometeoCarController : MonoBehaviour
           CancelInvoke("DecelerateCar");
           deceleratingCar = false;
           GoForward();
-        }
+                Debug.Log("Speed: " + carSpeed);
+                if (Input.GetKeyUp(KeyCode.E))
+                {
+                    if (maxSpeed < 270)
+                    {
+                        maxSpeed += 30;
+                        Debug.Log("Gear up, maxSpeed: " + maxSpeed);
+                    }
+                }
+                if (Input.GetKeyUp(KeyCode.R))
+                {
+                    if (maxSpeed >= 90)
+                    {
+                        maxSpeed -= 30;
+                        Debug.Log("Gear down, maxSpeed: " + maxSpeed);
+                    }
+                }
+            }
         if(Input.GetKey(KeyCode.S)){
           CancelInvoke("DecelerateCar");
           deceleratingCar = false;
@@ -362,8 +379,9 @@ public class PrometeoCarController : MonoBehaviour
         if(!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && steeringAxis != 0f){
           ResetSteeringAngle();
         }
+        
 
-      }
+        }
 
 
       // We call the method AnimateWheelMeshes() in order to match the wheel collider movements with the 3D meshes of the wheels.
@@ -508,8 +526,8 @@ public class PrometeoCarController : MonoBehaviour
       }
       // The following part sets the throttle power to 1 smoothly.
       throttleAxis = throttleAxis + (Time.deltaTime * 3f);
-      if(throttleAxis > 1f){
-        throttleAxis = 1f;
+      if(throttleAxis > 5f){
+        throttleAxis = 5f;
       }
       //If the car is going backwards, then apply brakes in order to avoid strange
       //behaviours. If the local velocity in the 'z' axis is less than -1f, then it
