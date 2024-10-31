@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,33 +8,36 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Game Objects")]
     public GameObject playerCar;
-
-
     public TextMeshProUGUI speedText;
     public TextMeshProUGUI healthText;
-    private bool gameStarted = false;
-    public GameObject pedestrianCarPrefab;
+    public Canvas countDownCanvas;
+    public Canvas TimerCanvas;
+    public Canvas gameEndedCanvas;
+    public static GameManager instance;
+
+    [Header("Game Variables")]
     public float playerHealth = 100.0f;
-    public GameObject endPoint;
+    public int timeLimitMinutes = 10;
+    private int countDownToStart = 3;
+    private float timer = 0.0f;
+    [NonSerialized] public bool gameStarted = false;
+    private bool gameEnded = false;
 
 
-    //To Do: Add parameters to the function to spawn the pedestrian car at a specific location
-    public void spawnPedestrianCar()
-    {
-        GameObject tempCar = Instantiate(pedestrianCarPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        //tempCar.GetComponent<PedestrianCar>().
-    }
+
 
     public void startGame()
     {
         gameStarted = true;
+        timer = timeLimitMinutes * 60.0f;
     }
 
     public void takeDamage(float damage)
     {
         playerHealth -= damage;
-        if(playerHealth <= 0)
+        if (playerHealth <= 0)
         {
             endGame();
         }
@@ -42,7 +46,7 @@ public class GameManager : MonoBehaviour
     public void endGame()
     {
         gameStarted = false;
-        Debug.Log("Game Over");
+        gameEnded = true;
     }
 
     public void restartGame()
@@ -51,37 +55,136 @@ public class GameManager : MonoBehaviour
         gameStarted = true;
     }
 
-    void handleSpeedText(){
-        if (speedText != null) {
-            speedText.text = System.Math.Round(playerCar.GetComponent<PrometeoCarController>().carSpeed,2).ToString() + "MPH";
+    void handleSpeedText()
+    {
+        if (speedText != null)
+        {
+            speedText.text = System.Math.Round(playerCar.GetComponent<PrometeoCarController>().carSpeed, 2).ToString() + "MPH";
         }
     }
 
-    void handleHealthText(){
-        if (healthText != null) {
-            healthText.text = "Health: " + System.Math.Round(playerHealth,2).ToString();
+    void handleHealthText()
+    {
+        if (healthText != null)
+        {
+            healthText.text = "Health: " + System.Math.Round(playerHealth, 2).ToString();
         }
     }
 
-    void handleAllText(){
+    void updateTimerText()
+    {
+        if (TimerCanvas != null)
+        {
+            int minutes = Mathf.FloorToInt(timer / 60F);
+            int seconds = Mathf.FloorToInt(timer - minutes * 60);
+            string niceTime = "Time Left: " + string.Format("{0:0}:{1:00}", minutes, seconds);
+            TimerCanvas.GetComponentInChildren<TextMeshProUGUI>().text = niceTime;
+        }
+        if (countDownCanvas.enabled) countDownCanvas.enabled = false;
+        if (!TimerCanvas.enabled) TimerCanvas.enabled = true;
+    }
+
+    void countDownText()
+    {
+        TextMeshProUGUI instructionsText = countDownCanvas.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI countDownText = countDownCanvas.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        if (instructionsText != null)
+        {
+            instructionsText.text = "Deliever the pizza in " + timeLimitMinutes + " minutes!";
+        }
+        if (countDownText != null)
+        {
+            countDownText.text = countDownToStart.ToString() + "!";
+        }
+        if (!countDownCanvas.enabled) countDownCanvas.enabled = true;
+        if (TimerCanvas.enabled) TimerCanvas.enabled = false;
+    }
+
+    void handleGameEnded()
+    {
+        if (gameEndedCanvas.enabled == false)
+        {
+            gameEndedCanvas.enabled = true;
+            TimerCanvas.enabled = false;
+            countDownCanvas.enabled = false;
+        }
+        if (gameEndedCanvas != null)
+        {
+            TextMeshProUGUI timeRemainingText = gameEndedCanvas.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI winOrLose = gameEndedCanvas.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+            timeRemainingText.text = "Time Remaining: " + System.Math.Round(timer, 2).ToString();
+            if (timer > 0.0f)
+            {
+                winOrLose.text = "Congratulations!";
+                winOrLose.color = Color.green;
+                timeRemainingText.color = Color.green;
+            }
+            else
+            {
+                winOrLose.text = "Failure!";
+                winOrLose.color = Color.red;
+                timeRemainingText.color = Color.red;
+            }
+        }
+    }
+
+    void handleAllText()
+    {
         handleSpeedText();
         handleHealthText();
+        if (gameStarted)
+        {
+            updateTimerText();
+        }
+        else if (gameEnded == false)
+        {
+            countDownText();
+        }
+        else
+        {
+            handleGameEnded();
+        }
     }
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameEndedCanvas.enabled = false;
+        if (instance == null)
+        {
+            instance = this;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         handleAllText();
-        if (gameStarted)
+        if (gameStarted == false && countDownToStart > 0)
         {
-            //To Do: Implement the game logic here
+            timer += Time.deltaTime;
+            if (timer >= 1.0f)
+            {
+                timer = 0.0f;
+                countDownToStart--;
+                Debug.Log(countDownToStart);
+                if (countDownToStart <= 0)
+                {
+                    startGame();
+                }
+            }
         }
+        else if (gameEnded == false)
+        {
+            timer -= Time.deltaTime;
+            if (timer <= 0.0f)
+            {
+                endGame();
+            }
+        }
+
+
+
     }
 }

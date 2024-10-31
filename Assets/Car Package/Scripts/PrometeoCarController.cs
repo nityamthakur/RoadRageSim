@@ -327,7 +327,8 @@ public class PrometeoCarController : MonoBehaviour
 
       }else{
 
-        if(Input.GetKey(KeyCode.W)){
+        if (GameManager.instance.gameStarted){
+          if(Input.GetKey(KeyCode.W)){
           CancelInvoke("DecelerateCar");
           deceleratingCar = false;
           GoForward();
@@ -385,7 +386,7 @@ public class PrometeoCarController : MonoBehaviour
 
 
       // We call the method AnimateWheelMeshes() in order to match the wheel collider movements with the 3D meshes of the wheels.
-      AnimateWheelMeshes();
+      AnimateWheelMeshes();}
 
     }
 

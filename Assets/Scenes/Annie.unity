@@ -1442,6 +1442,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!223 &836943084 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 1062578810116270963, guid: 62c80875895def1458ed69e06577d5d0,
+    type: 3}
+  m_PrefabInstance: {fileID: 4950300202206067297}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &869882932 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 758145849644659895, guid: 11864c339127ed04fa3ae056bce429a7,
@@ -1706,6 +1712,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!223 &1112722896 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 5168271802101107527, guid: 62c80875895def1458ed69e06577d5d0,
+    type: 3}
+  m_PrefabInstance: {fileID: 4950300202206067297}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1156643223
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1789,6 +1801,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c2e39117d4709a42b2435bcc83163e4, type: 3}
+--- !u!223 &1224860871 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 903278062706414189, guid: 62c80875895def1458ed69e06577d5d0,
+    type: 3}
+  m_PrefabInstance: {fileID: 4950300202206067297}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1290733896
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2957,7 +2975,7 @@ PrefabInstance:
     - target: {fileID: 3806369500912546732, guid: 480a71d6c66567242a94cec68b47115f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.1
+      value: -29.4
       objectReference: {fileID: 0}
     - target: {fileID: 3806369500912546732, guid: 480a71d6c66567242a94cec68b47115f,
         type: 3}
@@ -2967,7 +2985,7 @@ PrefabInstance:
     - target: {fileID: 3806369500912546732, guid: 480a71d6c66567242a94cec68b47115f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 23.4
+      value: 26.5
       objectReference: {fileID: 0}
     - target: {fileID: 3806369500912546732, guid: 480a71d6c66567242a94cec68b47115f,
         type: 3}
@@ -3037,6 +3055,21 @@ PrefabInstance:
       propertyPath: healthText
       value: 
       objectReference: {fileID: 85693968}
+    - target: {fileID: 424122792861629536, guid: d4ff1fa1bd38e354b8ac7a167832aa34,
+        type: 3}
+      propertyPath: TimerCanvas
+      value: 
+      objectReference: {fileID: 1224860871}
+    - target: {fileID: 424122792861629536, guid: d4ff1fa1bd38e354b8ac7a167832aa34,
+        type: 3}
+      propertyPath: countDownCanvas
+      value: 
+      objectReference: {fileID: 836943084}
+    - target: {fileID: 424122792861629536, guid: d4ff1fa1bd38e354b8ac7a167832aa34,
+        type: 3}
+      propertyPath: gameEndedCanvas
+      value: 
+      objectReference: {fileID: 1112722896}
     - target: {fileID: 2897703545066460695, guid: d4ff1fa1bd38e354b8ac7a167832aa34,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -45,6 +45,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCar: {fileID: 0}
-  pedestrianCarPrefab: {fileID: 0}
+  speedText: {fileID: 0}
+  healthText: {fileID: 0}
+  countDownCanvas: {fileID: 0}
+  TimerCanvas: {fileID: 0}
+  gameEndedCanvas: {fileID: 0}
   playerHealth: 100
-  endPoint: {fileID: 0}
+  timeLimitMinutes: 1
