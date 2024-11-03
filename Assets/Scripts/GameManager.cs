@@ -8,6 +8,13 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public enum timeMode
+    {
+        beatTime,
+        timeTrial
+    }
+    [Header("Time Mode")]
+    public timeMode timeModeSetting = timeMode.beatTime;
     [Header("Game Objects")]
     public GameObject playerCar;
     public TextMeshProUGUI speedText;
@@ -31,7 +38,15 @@ public class GameManager : MonoBehaviour
     public void startGame()
     {
         gameStarted = true;
-        timer = timeLimitMinutes * 60.0f;
+        switch (timeModeSetting)
+        {
+            case timeMode.beatTime:
+                timer = timeLimitMinutes * 60.0f;
+                break;
+            case timeMode.timeTrial:
+                timer = 0.0f;
+                break;
+        }
     }
 
     public void takeDamage(float damage)
@@ -77,7 +92,10 @@ public class GameManager : MonoBehaviour
         {
             int minutes = Mathf.FloorToInt(timer / 60F);
             int seconds = Mathf.FloorToInt(timer - minutes * 60);
-            string niceTime = "Time Left: " + string.Format("{0:0}:{1:00}", minutes, seconds);
+            string niceTime;
+            if (timeModeSetting == timeMode.beatTime) niceTime = "Time Left: ";
+            else niceTime = "Time: ";
+            niceTime += string.Format("{0:00}:{1:00}", minutes, seconds);
             TimerCanvas.GetComponentInChildren<TextMeshProUGUI>().text = niceTime;
         }
         if (countDownCanvas.enabled) countDownCanvas.enabled = false;
@@ -90,7 +108,8 @@ public class GameManager : MonoBehaviour
         TextMeshProUGUI countDownText = countDownCanvas.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         if (instructionsText != null)
         {
-            instructionsText.text = "Deliever the pizza in " + timeLimitMinutes + " minutes!";
+            if (timeModeSetting == timeMode.beatTime) instructionsText.text = "Deliever the pizza in " + timeLimitMinutes + " minutes!";
+            else instructionsText.text = "Get to the end as fast as you can!";
         }
         if (countDownText != null)
         {
@@ -112,18 +131,26 @@ public class GameManager : MonoBehaviour
         {
             TextMeshProUGUI timeRemainingText = gameEndedCanvas.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI winOrLose = gameEndedCanvas.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-            timeRemainingText.text = "Time Remaining: " + System.Math.Round(timer, 2).ToString();
-            if (timer > 0.0f)
+            switch (timeModeSetting)
             {
-                winOrLose.text = "Congratulations!";
-                winOrLose.color = Color.green;
-                timeRemainingText.color = Color.green;
-            }
-            else
-            {
-                winOrLose.text = "Failure!";
-                winOrLose.color = Color.red;
-                timeRemainingText.color = Color.red;
+                case timeMode.beatTime:
+                    timeRemainingText.text = "Time Remaining: " + System.Math.Round(timer, 2).ToString();
+                    if (timer > 0.0f)
+                    {
+                        winOrLose.text = "Congratulations!";
+                        winOrLose.color = Color.green;
+                        timeRemainingText.color = Color.green;
+                    }
+                    else
+                    {
+                        winOrLose.text = "Failure!";
+                        winOrLose.color = Color.red;
+                        timeRemainingText.color = Color.red;
+                    }
+                    break;
+                case timeMode.timeTrial:
+                    timeRemainingText.text = "Time: " + System.Math.Round(timer, 2).ToString();
+                    break;
             }
         }
     }
@@ -177,10 +204,17 @@ public class GameManager : MonoBehaviour
         }
         else if (gameEnded == false)
         {
-            timer -= Time.deltaTime;
-            if (timer <= 0.0f)
+            if (timeModeSetting == timeMode.beatTime)
             {
-                endGame();
+                timer -= Time.deltaTime;
+                if (timer <= 0.0f)
+                {
+                    endGame();
+                }
+            }
+            else if (timeModeSetting == timeMode.timeTrial)
+            {
+                timer += Time.deltaTime;
             }
         }
 

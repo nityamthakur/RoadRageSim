@@ -3070,6 +3070,11 @@ PrefabInstance:
       propertyPath: gameEndedCanvas
       value: 
       objectReference: {fileID: 1112722896}
+    - target: {fileID: 424122792861629536, guid: d4ff1fa1bd38e354b8ac7a167832aa34,
+        type: 3}
+      propertyPath: timeModeSetting
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2897703545066460695, guid: d4ff1fa1bd38e354b8ac7a167832aa34,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3242,6 +3247,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 7687855213791373173, guid: 62c80875895def1458ed69e06577d5d0,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
